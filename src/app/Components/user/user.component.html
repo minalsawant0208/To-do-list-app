@@ -1,0 +1,134 @@
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg-8 col-12">
+            <!-- USER LIST -->
+            <div class="container mt-4">
+                <!-- Header -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-list-task"></i>
+                            <h5 class="ms-2 mb-0">Tasks</h5>
+                            <span class="ms-2 text-muted">All Tasks</span>
+                            <span class="ms-2 text-muted">records</span>
+                        </div>
+                        <div class="mt-2 mt-md-0">
+                            <button class="btn btn-warning me-2">New Task</button>
+                            <button class="btn btn-warning">Refresh</button>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                            <input type="text" class="form-control w-100 w-md-25" placeholder="Search">
+                        </div>
+
+                        <!-- Task Table -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox"></th>
+                                    <th>Assigned To</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Priority</th>
+                                    <th>Comments</th>
+                                    <th>EDIT</th>
+                                    <th>DELETE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop through userList -->
+                                    <tr *ngFor="let item of userList; let i = index">
+                                        <td><input type="checkbox"></td>
+                                        <td><a href="#">{{ item.assignedto }}</a></td>
+                                        <td>{{ item.status }}</td>
+                                        <td>{{ item.duedate | date }}</td>
+                                        <td>{{ item.priority }}</td>
+                                        <td>{{ item.comments }}</td>
+                                        <!-- EDIT icon -->
+                                        <td>
+                                            <a (click)="onEdit(item)">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </td>
+                                        <!-- DELETE icon -->
+                                        <td>
+                                            <a (click)="onDelete(item.id)">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="mb-2 mb-md-0">
+                                <select class="form-select form-select-sm w-auto">
+                                    <option>20</option>
+                                    <option>50</option>
+                                    <option>100</option>
+                                </select>
+                            </div>
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item"><a class="page-link" href="#">First</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Last</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-12">
+            <!-- USER FORM -->
+            <div class="container mt-4">
+                <div class="form-container border p-4 shadow-sm bg-white rounded">
+                    <h3 class="text-center mb-4">{{ editMode ? 'Update Task' : 'Add Task'}}</h3>
+                    <!-- Angular form handling -->
+                    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="assignedto" class="form-label">Assigned To</label>
+                                <input type="text" name="assignedto" id="assignedto" class="form-control" required [(ngModel)]="user.assignedto">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="status" class="form-label">Status</label>
+                                <input type="text" name="status" id="status" class="form-control" required [(ngModel)]="user.status">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="duedate" class="form-label">Due Date</label>
+                                <input type="date" name="duedate" class="form-control" id="duedate" required [(ngModel)]="user.duedate">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="priority" class="form-label">Priority</label>
+                                <input type="text" name="priority" id="priority" class="form-control" required [(ngModel)]="user.priority">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comments" class="form-label">Description</label>
+                            <textarea class="form-control" name="comments" id="comments" rows="3" [(ngModel)]="user.comments"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-cancel me-2">Cancel</button>
+                            <button type="submit" class="btn btn-save">{{ editMode ? 'Update' : 'Add Task'}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
